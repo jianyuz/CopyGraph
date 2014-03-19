@@ -5,6 +5,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * use arrayed list to keep track of empty lockers.
+ * number of lockers are fixed.
+ * so use mapped locker array as locker data structure.
+ * @author zhouzhou
+ *
+ */
 enum Size{
 	small, medium, large;
 	
@@ -140,8 +147,7 @@ class LockerManager{
 			List<Integer> emptyLockerList = emptyLockers[i];
 			if(emptyLockerList.size() ==0 ) continue;
 			else{
-				int lockerNumber = emptyLockerList.get(0);
-				emptyLockerList.remove(0);
+				int lockerNumber = emptyLockerList.remove(0);
 				return lockers.get(size)[lockerNumber].store(b);
 			}
 		}
