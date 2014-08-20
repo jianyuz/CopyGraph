@@ -4,6 +4,11 @@ import java.util.List;
 
 
 /**
+ * Search string questions.
+ * search in dictionary or a set of words.
+ * use Trie.
+ * 
+ * 
  * The game of Boggle is played on a N x N board (usually made of cubes that has letters engraved on it). Given a dictionary, you will have to construct words on the board following these rules:
 
 i) The letters in the word must be "adjacent" to each other
@@ -14,8 +19,8 @@ binary search in dictionary to find the word?
 but search space is huge.
 
 trie construction complexity O(W * L) number of words times the length of word.
-explore the board like a graphc.
-look for nodes correpspond to accepting strings
+explore the board like a graph.
+look for nodes that correspond to the accepting strings
 
  * @author zhouzhou
  *
@@ -58,11 +63,11 @@ public class BoggleSolver {
 		int rows = grid.length;
 		int cols = grid[0].length;
 		
-		ArrayList<String> res = new ArrayList<String>();
+		ArrayList<String> res = new ArrayList<String>(); //found words.
 		String prefix = "";
-		LinkedList<Position> visited = new LinkedList<Position>();//visited indices.
+		LinkedList<Position> visited = new LinkedList<Position>();//visited indices. //mark the visited positions.
 		
-		for(int i=0; i< rows; i++){
+		for(int i=0; i< rows; i++){//iterate through all possible start positions.
 			for(int j=0; j< cols; j++){
 				Position pos = new Position(i,j);
 				find(trie.root, grid,  pos, prefix, visited, res);
@@ -72,6 +77,15 @@ public class BoggleSolver {
 		return res;
 	}
 	
+	/**
+	 * pass in the current trie node.
+	 * @param parent
+	 * @param grid
+	 * @param pos
+	 * @param prefix
+	 * @param visited
+	 * @param res
+	 */
 	public static void find(Node parent, char[][] grid, Position  pos, String prefix, LinkedList<Position> visited, List<String> res){
 		if(visited.contains(pos)){
 			return;
@@ -83,16 +97,16 @@ public class BoggleSolver {
 		int cols = grid[0].length;
 		
 		prefix += grid[pos.i][pos.j];
-		Node node = parent.match(grid[pos.i][pos.j]);
+		Node node = parent.match(grid[pos.i][pos.j]); //from parent node and match to a child node.
 		if(node != null){
 			if(node.isWord){
 				res.add(prefix);
 			}
 			visited.offer(pos);
 			//visit neighbors.
-			for(int i= -1; i<=1; i++){
+			for(int i= -1; i<=1; i++){//don't do iteration, + - 1 to get to neighbors but do check for boundary.
 				for( int j = -1; j<=1; j++){
-					if(!(i==0 && j==0)){
+					if(!(i==0 && j==0)){//ignore curren position
 						Position newPos = new Position(pos.i + i, pos.j + j);
 						if(newPos.i >=0 && newPos.i <rows && newPos.j >=0 && newPos.j <cols){
 							find(node, grid, newPos, prefix, visited, res);
@@ -135,6 +149,13 @@ public class BoggleSolver {
 		}
 	}
 
+	/**
+	 * organize the trie node with 26 branches.
+	 * and a boolean to mark the word end.
+	 * 
+	 * @author zhouzhou
+	 *
+	 */
 	static class Node {
 		public static final int NUM_OF_CHARS = 26;
 		public static final int START_CHAR = 'A';//start char is always the same here
@@ -149,7 +170,7 @@ public class BoggleSolver {
 		public boolean insert(String word){
 			if(word == null) return false;
 			if(word.length() == 0){
-				if(isWord) return false; //already a word.
+				if(isWord) return false; //already a word. duplicate word.
 				else{
 					isWord = true;
 					return true;
@@ -158,10 +179,8 @@ public class BoggleSolver {
 				int pos = word.charAt(0) - START_CHAR;
 				if(children[pos] == null){
 					children[pos] = new Node();
-					return children[pos].insert(word.substring(1));//recursive call for next char.
-				}else{
-					return children[pos].insert(word.substring(1));
 				}
+				return children[pos].insert(word.substring(1));//recursive call for next char.
 			}
 		}
 		

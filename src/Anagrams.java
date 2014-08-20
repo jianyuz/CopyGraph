@@ -1,17 +1,20 @@
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 /**
  * Given an array of strings, return all groups of strings that are anagrams.
+ * 变位词。
+ * different from palindrome.
  * 
- * sort each word.
+ * sort the chars in each word.
  * keep the anagram in hashmap
  * only output anagram group with size bigger than 1.
  * 
- * wLg(w) * number of words.
+ * wlLog(wl) * number of words.
  * 
  * n storage.
  * 
@@ -20,11 +23,11 @@ import java.util.Set;
  */
 public class Anagrams {
 
-	public ArrayList<String> anagrams(String[] strs) {
+	public List<String> anagrams(String[] strs) {
         // Start typing your Java solution below
         // DO NOT write main() function
         
-        ArrayList<String> res = new ArrayList<String>();
+        List<String> res = new ArrayList<String>();
         if(strs == null || strs.length == 0) return res;
         
         Map<String, ArrayList<String>> anaMap = new HashMap<String, ArrayList<String>>();
@@ -43,7 +46,7 @@ public class Anagrams {
         //get all the anagram groups and put in the result list.
         Set<String> keys = anaMap.keySet();
         for(String key: keys){
-            ArrayList<String> nList = anaMap.get(key);
+            List<String> nList = anaMap.get(key);
             if(nList.size() > 1)
                 res.addAll(nList);
         }
@@ -99,6 +102,7 @@ public class Anagrams {
         return res;
     }
     
+    //don't use this hash code as keys. collision.
     public long BKDRHash(String str){
         
         long res = 0;

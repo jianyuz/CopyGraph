@@ -6,16 +6,22 @@ import java.util.concurrent.ThreadFactory;
 
 public class MyThreadFactory implements ThreadFactory {
 
+	private String poolName;
+	
+	MyThreadFactory(String poolName){
+		this.poolName = poolName;
+	}
+	
 	@Override
 	public Thread newThread(Runnable r) {
 		// TODO Auto-generated method stub
-		Thread t = new Thread(r);
+		Thread t = new Thread(r, poolName);//name of new thread
 		t.setUncaughtExceptionHandler(new MyLogger());
 		return t;
 	}
 	
 	public static void main(String[] args){
-		ExecutorService executor = Executors.newFixedThreadPool(1, new MyThreadFactory());
+		ExecutorService executor = Executors.newFixedThreadPool(1, new MyThreadFactory("my pool"));
 		executor.submit(new MyTask());
 		executor.submit(new MyTask1());
 		Runtime.getRuntime().addShutdownHook(new Thread(){

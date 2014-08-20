@@ -10,7 +10,7 @@ public class ClimbStairs {
 	/**
 	 * one d dynamic programming.
 	 * Note that we need to output n==1 first
-	 * since array init and init value assign ment requires n > 1;
+	 * since array init and init value assign means requires n > 1;
 	 * 
 	 * 
 	 * To reach to the nth step, you have only two choices:
@@ -26,6 +26,7 @@ Therefore, f(n) = f(n-1) + f(n-2), which is the exact same recurrence formula de
         // DO NOT write main() function
         if(n ==0) return 0;
         if(n== 1) return 1;
+        if(n== 2) return 2;
         
         int[] ways = new int[n+1];
         
@@ -46,10 +47,16 @@ Therefore, f(n) = f(n-1) + f(n-2), which is the exact same recurrence formula de
 	 * combinations'
 	 * for 6 steps stairs
 	 * say 2 1 steps and 2 2 steps.
-	 * c4 2 how many ways to put the 2 steps. no care about there order.
+	 * c4 2 how many ways to put the 2 steps. don't care about the order.
 	 * 
+	 * 
+	 * Clearly, the above solution is of O(n) time complexity. In fact, there are more efficient way to get a Fibonacci number. One is to use the formulation of the sequence as stated in the Wikipedia page:
+
+Fn=15‾‾√(1+5‾‾√2)n−15‾‾√(1−5‾‾√2)n.
+By using an O(logn) algorithm (e.g., LeetCode - Pow(x, n)) to compute the pow operations, it needs only O(logn) time to get a desired Fibonacci number.
+
 	 * x2 = x + 1 solution
-	 * two value essentail in FN computation.
+	 * two value essential in FN computation.
 	 * use formula to approximate it.
 	 */
 	

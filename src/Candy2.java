@@ -39,9 +39,9 @@ at the edge and in the middle
         
         for(int i=0; i< len; i++){
             //find local minium
-            if( (i ==0  && i +1 < len && ratings[i] < ratings[i+1]) 
-            		|| (i ==len -1 && i-1 >=0 && ratings[i] < ratings[i-1]) 
-            		||(i > 0 && i +1 < len &&  ((ratings[i] < ratings[i-1] && ratings[i+1] >= ratings[i]) 
+            if( (i ==0  && i +1 < len && ratings[i] < ratings[i+1]) //left edge
+            		|| (i ==len -1 && i-1 >=0 && ratings[i] < ratings[i-1])  //right edge
+            		||(i > 0 && i +1 < len &&  ((ratings[i] < ratings[i-1] && ratings[i+1] >= ratings[i]) //equal condition is included. 112 or 211
             				|| (ratings[i-1] >= ratings[i] && ratings[i] < ratings[i+1])))){
                 //propagate the change. from the candies i position.
                 propagateChange(ratings, i, candies, len);
@@ -58,7 +58,7 @@ at the edge and in the middle
         
     }
     
-    
+    //two direction propagation.
     public static void propagateChange(int[] ratings, int pos, int[] candies, int len){
         for(int i=pos; i>=1; i--){
             if(ratings[i] < ratings[i-1] && candies[i] >= candies[i-1]){

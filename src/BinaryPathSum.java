@@ -1,6 +1,11 @@
 import java.util.ArrayList;
 
-
+/**
+ * Binary tree issue. think of recursion first.
+ * 
+ * @author zhouzhou
+ *
+ */
 public class BinaryPathSum {
 
 	/**
@@ -20,11 +25,7 @@ public class BinaryPathSum {
         } 
         
         if(root.left == null && root.right == null ){
-            if(sum == root.val){
-                return true;
-            }else{
-                return false;
-            }
+            return (sum == root.val);
         }
         
         
@@ -40,6 +41,7 @@ public class BinaryPathSum {
 		TreeNode right;
 	}
 	
+	//still a recursive solution but returns the path list in each step.
 	//Given a binary tree and a sum, find all root-to-leaf paths where each path's sum equals the given sum.
     //node for empty path sum return empty array.
 	//idea here is to find the path down to the leaf.

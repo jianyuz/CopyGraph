@@ -49,6 +49,7 @@ Notes: It is intended for this problem to be specified vaguely (ie, no given inp
 	        boolean isNeg = false;
 	        int res = 0;
 	        
+	        //pure char by char empty space removal.
 	        while(str.charAt(pos) == ' ') pos ++;
 	        
 	        if(str.charAt(pos) == '+' || str.charAt(pos) == '-'){
@@ -62,7 +63,7 @@ Notes: It is intended for this problem to be specified vaguely (ie, no given inp
 	            if(tmp >=0 && tmp <= 9 ){
 	                if(Integer.MAX_VALUE /10 >= res) res *= 10;
 	                else{
-	                    return isNeg?Integer.MIN_VALUE: Integer.MAX_VALUE;
+	                    return isNeg?Integer.MIN_VALUE: Integer.MAX_VALUE; //overflow situation.
 	                }
 	                
 	                if(Integer.MAX_VALUE - tmp >= res){
@@ -80,6 +81,8 @@ Notes: It is intended for this problem to be specified vaguely (ie, no given inp
 	        return  res;
 	        
 	    }
+	 
+	 //this approach convert into long and cast it into int.
 	public static int atoi(String str) {
         // Start typing your Java solution below
         // DO NOT write main() function
@@ -112,7 +115,7 @@ Notes: It is intended for this problem to be specified vaguely (ie, no given inp
         
         
         while(pos < str.length() ){
-            int tmp = str.charAt(pos) - '0';
+            int tmp = str.charAt(pos) - '0'; //need to check overflow situation while iterating through it.
             if(tmp >=0 && tmp <= 9 ){
                 res = res * 10 + tmp;
                 pos ++;

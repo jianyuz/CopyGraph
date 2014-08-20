@@ -38,6 +38,11 @@ public class ConvertListToBST {
         
     }
     
+	/**
+	 * recursively build up left and subtree.
+	 * @param head
+	 * @return
+	 */
     public TreeNode convertHelper(ListNode head){
         if(head == null) return null;
         ListNode midNode = findMidNode(head);
@@ -54,6 +59,13 @@ public class ConvertListToBST {
         return mid;
     }
     
+    /**
+     * find middle node using fast and slow pointer.
+     * keep track of previous node to break the link.
+     * 
+     * @param head
+     * @return
+     */
     public ListNode findMidNode(ListNode head){
         ListNode slow = head;
         ListNode fast = head;
@@ -86,6 +98,7 @@ public class ConvertListToBST {
     
     /**
      * O(n) solution. bottom up.
+     * recursive solution
      * java doesn't pass reference use a wrapper class
      * 
      */
@@ -97,7 +110,7 @@ public class ConvertListToBST {
         if(head.next == null){
             return new TreeNode(head.val);
         }
-        int n = length(head);
+        int n = length(head); //count the length of the list.
         NodePointer np = new NodePointer();
         np.node = head;
         return helper(np, 0, n-1);
@@ -111,7 +124,7 @@ public class ConvertListToBST {
         
         TreeNode left  = helper(np, start, mid -1);
         TreeNode parent = new TreeNode(np.node.val);
-        np.node = np.node.next;
+        np.node = np.node.next;//for right subtree, update the node pointer.
         
         TreeNode right = helper(np, mid+1, end);
         parent.left = left;
@@ -136,6 +149,8 @@ public class ConvertListToBST {
     
     /**
      * convert sorted array to Binary search tree
+     * this is easier since the reference pointer is inherent
+     * in array.
      * 
      */
     

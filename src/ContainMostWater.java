@@ -1,6 +1,19 @@
 
+/**
+ * an given array with series of bars.
+ * bar with different heights.
+ * find two lines, including x axis * contains the most water
+ * 
+ * @author zhouzhou
+ *
+ */
 public class ContainMostWater {
 
+	/** 
+	 * o(n2)
+	 * @param height
+	 * @return
+	 */
 	 public int maxArea(int[] height) {
 	        // Start typing your Java solution below
 	        // DO NOT write main() function
@@ -10,8 +23,8 @@ public class ContainMostWater {
 	        
 	        //from current bar to count next bar.
 	        //for each bar, min(cur, and start) * distance.
-	        //until see one bar higher then the start or encounter the end.
-	        // if heigher than current, move point to it.
+	        //until see one bar higher than the start or encounter the end.
+	        // if higher than current, move point to it.
 
 	        int n = height.length;
 	        
@@ -29,7 +42,7 @@ public class ContainMostWater {
 	    }
 	 
 	 /**
-	  * from end to find the furthest delimiting bar for each bar.
+	  * from end to find the furtherest delimiting bar for each bar.
 	  * need to run it from left to right
 	  * and from right to left.
 	  * @param height
@@ -55,7 +68,7 @@ public class ContainMostWater {
 	                if(height[j] >= height[i]){
 	                    int vol = Math.min(height[i],height[j]) * (j-i);
 	                    if(vol > mVol) mVol = vol;
-	                    break;
+	                    break;//* difference here.
 	                }
 	            }
 	            
@@ -75,6 +88,8 @@ public class ContainMostWater {
 	        return mVol;
 	    }
 	 
+	 //water volume between two bars.
+	 //move with the shortest board index.
 	 // two pointer solutions O(n) performance.
 	 //move i and j to the middle.
 	 //use the same reasoning.

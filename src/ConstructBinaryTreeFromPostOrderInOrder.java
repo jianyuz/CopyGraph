@@ -2,12 +2,18 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * construct binary tree from postorder traversal and inorder traversal or trees.
+ * construct search tree from postorder traversal and inorder traversal or trees.
+ * preorder visit root first
+ * post order visit the left tree right tree first.
+ * 
  * 
  * idea is posorder element last is alreay tree.
  * then for each next element in post order array
  * check if it is on the left or right of existing treenodes.
- * and insert it into the correct places.
+ * and if it is on the left, create left node and added it to the parent
+ * otherwise add it to the right, 
+ * 
+ * cause the tree could be skewed.
  * 
  * O(n2) complexity.
  * 
@@ -56,9 +62,12 @@ public class ConstructBinaryTreeFromPostOrderInOrder {
 	    } 
 	    
 	/** O(n) solution
-	 *  T(n) = 2T(n/2) + C
+	 *  T(n) = 2T(n/2) + f(n)
 	 *  a = 2 b = 2 c= 0
 	 *  
+	 *  (fn nc logkn
+	 *  
+	 *  if(c == logba) ...)
 	 *  c < logba
 	 *  O(n logba)
 	 *  = (O(n)
@@ -88,6 +97,20 @@ public class ConstructBinaryTreeFromPostOrderInOrder {
         		0, postorder.length -1, indexMap);
 	}
 	
+	/**
+	 * recursive solution
+	 * from in order tree to find relevant postorder region.
+	 * need a index map to map element to index  in inorder array.
+	 * 
+	 * @param inorder
+	 * @param istart
+	 * @param iend
+	 * @param postorder
+	 * @param pstart
+	 * @param pend
+	 * @param indexMap
+	 * @return
+	 */
 	public TreeNode helper(int[] inorder, int istart, int iend, 
 			int[] postorder, int pstart, int pend,  Map<Integer, Integer> indexMap){
 		
@@ -96,19 +119,20 @@ public class ConstructBinaryTreeFromPostOrderInOrder {
 		TreeNode root = new TreeNode(postorder[pend]);
 		int iIndex = indexMap.get(postorder[pend]);
 		//divide the array further.
-		int len = iIndex - istart;
+		int len = iIndex - istart; //length of left subtree.
 		
 		TreeNode left = helper(inorder, istart, iIndex -1, 
 				postorder, pstart, pstart + len -1,indexMap);
 		TreeNode right = helper(inorder, iIndex +1, iend,
 				postorder, pstart + len, pend -1, indexMap);
+		                                 //eliminate the end of the range.
 		
 		root.left = left;
 		root.right = right;
 		return root;
 	}
 
-	public TreeNode buildTree(int[] inorder, int[] postorder) {
+	public static TreeNode buildTree(int[] inorder, int[] postorder) {
         // Start typing your Java solution below
         // DO NOT write main() function
         if(postorder == null || inorder == null) return null;
@@ -134,15 +158,16 @@ public class ConstructBinaryTreeFromPostOrderInOrder {
         
     }
     
-    public void insertIntoTree(TreeNode root, int element, Map<Integer, Integer> indexMap){
+    public static void insertIntoTree(TreeNode root, int element, Map<Integer, Integer> indexMap){
         
         
-        while(root != null){
+        while(root != null){//the loop got the traversal function to find the right root.
             int indexE = indexMap.get(element);
             int indexR = indexMap.get(root.val);
             if(indexE < indexR){
                 if(root.left == null){
                     root.left = new TreeNode(element);
+                    //still need current root. //return here.
                     return;
                 }
                 root = root.left;
@@ -163,5 +188,20 @@ public class ConstructBinaryTreeFromPostOrderInOrder {
 	    	      TreeNode left;
 	    	      TreeNode right;
 	    	      TreeNode(int x) { val = x; }
+	    }
+	    
+	    public static void inorderTraverse(TreeNode root){
+	    	if(root == null) return;
+	    	inorderTraverse(root.left);
+	    	System.out.println(root.val);
+	    	inorderTraverse(root.right);
+	    }
+	    public static void main(String[] args){
+	    	int[] inorder = {2, 4, 5, 6, 7};
+	    	int[] postorder = {2, 5, 4, 7, 6};
+	    	
+	    	TreeNode root = buildTree(inorder, postorder);
+	    	
+	    	inorderTraverse(root);
 	    }
 }

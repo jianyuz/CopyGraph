@@ -1,4 +1,14 @@
 
+/**
+ * Determine if the tree underlying is a balanced Tree.
+ * compare the left height and right height.
+ * 
+ * For this problem, a height-balanced binary tree is defined as a binary tree in which the depth of the two subtrees of every node never differ by more than 1.
+
+
+ * @author zhouzhou
+ *
+ */
 public class CheckTreeBalanced {
 
 	
@@ -50,12 +60,13 @@ public class CheckTreeBalanced {
     
     /**
      * another version
-     * use -1 to represent balanced or not balanced flag.
+     * use -1 to represent balanced or not balanced flag. avoid the balanced flag.
      * if left or right are unbalanced, we don't have to know the actually height
      * cause that would be the result.
      * otherwise, we trace the height and height difference level by level.
      * 
      * only this pass the bigger validation.
+     * 
      * @param root
      * @return
      */

@@ -2,13 +2,43 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-
+/**
+ * two elements of binary search tree are swapped by mistake
+ * recover the tree without changing its structure
+ * @author zhouzhou
+ *
+ */
 public class CorrectBinaryTree {
 
 	
+	public static  void morrisWalk(TreeNode root){
+		if(root == null) return;
+		TreeNode current = root;
+		while(current != null){
+			if(current.left == null){
+				System.out.println(current.val);
+				current = current.right;
+			}else{
+				TreeNode tmp = current.left;
+				while(tmp.right != null && tmp.right != current){
+					tmp = tmp.right;
+				}
+				if(tmp.right != current){
+					tmp.right = current;
+					current = current.left;
+				}else{ //have finished the traversal break the right pointer link. print current value and move current pointer.
+					tmp.right = null;
+					System.out.println(current.val);
+					current = current.right;
+				}
+			}
+		}
+	}
 	/**
      * use Msorris in order tree walk.
-     * O(nLog(n)) complexity, but constant space.
+     * modify the part that we move current node.
+     * 
+     * O(nlog(n)) complexity, but constant space.
      */
     public void recoverTree1(TreeNode root) {
         // Start typing your Java solution below
@@ -17,7 +47,7 @@ public class CorrectBinaryTree {
         if(root == null) return;
         
         TreeNode curNode = root;
-        TreeNode parNode = null;
+        TreeNode parNode = null;//traversal previous node.
         TreeNode preNode = null;
         ArrayList<TreeNode> swaps = new ArrayList<TreeNode>();
         //morris in order tree walk,
@@ -73,8 +103,31 @@ public class CorrectBinaryTree {
             swaps.set(1, curNode);
     }
     
+    public static void main(String[] args){
+    	//14325
+    	TreeNode root = new TreeNode(3);
+    	root.left = new TreeNode(1);
+    	root.left.right = new TreeNode(4);
+    	root.right = new TreeNode(5);
+    	root.right.left = new TreeNode(2);
+//    	
+//    	recoverTree(root);
+//    	
+//    	printTree(root);
+    	
+    	morrisWalk(root);
+    	
+    }
     
-	public void recoverTree(TreeNode root) {
+    
+    public static void printTree(TreeNode root){
+    	if(root == null) return;
+    	printTree(root.left);
+    	System.out.println(root.val);
+    	printTree(root.right);
+    }
+    
+	public static void recoverTree(TreeNode root) {
         // Start typing your Java solution below
         // DO NOT write main() function
         if(root == null) return;
@@ -82,29 +135,44 @@ public class CorrectBinaryTree {
         
         helper(root, null, swaps);
         
+        //after we find the two misplaced nodes,
+        //just swap their values.
+        
         int temp = swaps.get(0).val;
         swaps.get(0).val = swaps.get(1).val;
         swaps.get(1).val = temp;
     }
     
 	/**
-	 * pass previous node around.
-	 * pass swap node list around
+	 * 
+	 * in order tree traversal
+	 * 
+	 * think of how many pairs of nodes are in wrong order.
+	 * first pair of out of order, the first element is the one we need to swap.
+	 * the last pair of out of order, the second element is the one we need to swap.
+	 * we need to keep track of the previous node to compare nodes while doing in order traversal.
+	 * 
+	 * 
+	 * pass previous node around. previous node comes from node
+	 * pass swap node list around to keep track of which two nodes needs to be swapped.
 	 * stack uses space.
 	 * 
+	 * helper return last visited node.
+	 * O(n) solution O(h) space.
 	 * 
 	 * @param node
-	 * @param prev
+	 * @param prev  //passed in previous node
 	 * @param swaps
-	 * @return
+	 * @return last visited node in the tree.
 	 */
-    public TreeNode helper(TreeNode node, TreeNode prev, List<TreeNode> swaps){
+    public static TreeNode helper(TreeNode node, TreeNode prev, List<TreeNode> swaps){
         if(node == null) return prev ;
-        prev = helper(node.left, prev, swaps);
+        
+        prev = helper(node.left, prev, swaps); //the returned node here is the last visited node.
         if(prev != null && node.val < prev.val) {
             if(swaps.size() == 0){
                 swaps.add(prev);
-                swaps.add(node);
+                swaps.add(node); //could be the only one pair
             }else{
                 swaps.set(1, node);
             }

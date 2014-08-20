@@ -49,6 +49,8 @@ public class BiggestPrimeInArray {
 				max = a[i];
 			}
 		}
+		//find max number in the array.
+		
 		
 		//find prime number in the range.
 		boolean[] isPrime = new boolean[max +1];
@@ -58,7 +60,7 @@ public class BiggestPrimeInArray {
 		
 		for(int i = 2; i<= Math.sqrt(max); i++){
 			if(isPrime[i]){
-				for(int j = i*i; j <= max ; j=j+i)
+				for(int j = i*i; j <= max ; j=j+i) //then it is square is not prime a times 3 a times 4 .. are not prime.
 				isPrime[j] = false;
 			}
 		}

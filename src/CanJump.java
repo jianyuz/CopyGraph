@@ -16,14 +16,14 @@ A = [3,2,1,0,4], return false.
 	 * @param A
 	 * @return
 	 */
-	public boolean canJump(int[] A) {
+	public static boolean canJump(int[] A) {
         // Start typing your Java solution below
         // DO NOT write main() function
         if(A == null || A.length == 0) return false;
         
         int pos = 0, lastPos = -1;
         
-        while(pos < A.length && pos != lastPos){ //make sure it is not stuck there.
+        while(pos < A.length && pos != lastPos){ //make sure it is not stuck there.  cause sometimes jump legnth is 0.
             lastPos = pos; //update lastPos first.
             pos += A[pos];
             
@@ -36,4 +36,11 @@ A = [3,2,1,0,4], return false.
             return false;
         }
     }
+	
+	public static void main(String[] args){
+		int[] A = { 2, 3, 1, 1, 4};
+		int[] B = {3,2,1,0,4};
+		System.out.println(canJump(A));
+		System.out.println(canJump(B));
+	}
 }

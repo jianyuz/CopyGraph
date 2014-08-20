@@ -1,4 +1,15 @@
 
+/**
+ * There are N children standing in a line. Each child is assigned a rating value.
+ *  You are giving candies to these children subjected to the following requirements: 
+ *  Each child must have at least one candy. Children with a higher rating get more candies than their neighbors. 
+ *  What is the minimum candies you must give?
+ *  if ratings are equal between neighbors we don't care.
+ *  otherwise, propogate change back to start.
+ *  
+ * @author zhouzhou
+ *
+ */
 public class Candy {
 
 	public static void main(String[] args){
@@ -23,7 +34,7 @@ public class Candy {
         
         int len = ratings.length;
         int[] candies = new int[len];
-        for(int i=0; i< len; i++){
+        for(int i=0; i< len; i++){//each one get minimum one candy.
             candies[i] = 1;
         }
         
